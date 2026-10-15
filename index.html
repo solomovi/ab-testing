@@ -36,6 +36,7 @@
         .tab-btn {
             color: #64748b;
             border-bottom: 3px solid transparent;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -55,12 +56,12 @@
             <p class="text-sm font-bold text-amber-600 mb-4">אנא בחרו ממשק התחברות:</p>
 
             <div id="roleSelectorContainer" class="w-full space-y-3">
-                <button type="button" id="btnStudentSelect" class="w-full py-3.5 px-4 bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center gap-2 transition cursor-pointer">
+                <button type="button" onclick="window.showStudentForm()" class="w-full py-3.5 px-4 bg-slate-50 hover:bg-slate-100 text-slate-800 font-bold rounded-2xl border border-slate-200 shadow-sm flex items-center justify-center gap-2 transition cursor-pointer">
                     <span>כניסת סטודנטים</span>
                     <span class="text-xl">🎓</span>
                 </button>
 
-                <button type="button" id="btnLecturerSelect" class="w-full py-3.5 px-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-2xl shadow-md flex items-center justify-center gap-2 transition cursor-pointer">
+                <button type="button" onclick="window.showLecturerForm()" class="w-full py-3.5 px-4 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-2xl shadow-md flex items-center justify-center gap-2 transition cursor-pointer">
                     <span>כניסת סגל (מרצה)</span>
                     <span class="text-xl">👨‍🏫</span>
                 </button>
@@ -74,10 +75,10 @@
                 <label class="block text-xs font-bold text-slate-600 mb-1">מספר צוות / קבוצה (אופציונלי):</label>
                 <input type="text" id="studentGroupInput" placeholder="למשל: קבוצה 3" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl mb-4 text-sm focus:ring-2 focus:ring-blue-500 outline-none">
 
-                <button type="button" id="btnStartPractice" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">
+                <button type="button" onclick="window.loginAsStudent()" class="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">
                     התחל תרגול 🚀
                 </button>
-                <button type="button" id="btnBackFromStudent" class="w-full py-2 mt-2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer">חזרה לבחירה</button>
+                <button type="button" onclick="window.resetRoleOverlay()" class="w-full py-2 mt-2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer">חזרה לבחירה</button>
             </div>
 
             <!-- טופס מרצה -->
@@ -90,10 +91,10 @@
                 
                 <p id="lecturerError" class="text-xs text-rose-500 font-bold mb-3 hidden">שם משתמש או סיסמה שגויים</p>
 
-                <button type="button" id="btnLoginLecturerSubmit" class="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">
+                <button type="button" onclick="window.loginAsLecturer()" class="w-full py-3 bg-amber-600 hover:bg-amber-700 text-white font-bold rounded-xl shadow-md transition cursor-pointer">
                     כניסה ללוח בקרה 📊
                 </button>
-                <button type="button" id="btnBackFromLecturer" class="w-full py-2 mt-2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer">חזרה לבחירה</button>
+                <button type="button" onclick="window.resetRoleOverlay()" class="w-full py-2 mt-2 text-xs text-slate-400 hover:text-slate-600 cursor-pointer">חזרה לבחירה</button>
             </div>
         </div>
     </div>
@@ -117,7 +118,7 @@
                     <div id="currentUserBadge" class="text-xs font-bold text-slate-700">מצב אורח</div>
                     <div id="currentGroupBadge" class="text-[11px] text-slate-400">לא מחובר</div>
                 </div>
-                <button type="button" id="btnSwitchUser" class="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold border border-slate-300 transition cursor-pointer">
+                <button type="button" onclick="window.showRoleOverlay()" class="text-xs px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg font-bold border border-slate-300 transition cursor-pointer">
                     החלף משתמש 🔄
                 </button>
             </div>
@@ -125,17 +126,107 @@
 
         <!-- תפריט לשוניות -->
         <nav class="max-w-7xl mx-auto px-4 flex border-t border-slate-100 space-x-reverse space-x-6 overflow-x-auto">
-            <button type="button" onclick="switchTab('labTab')" id="tabBtn-lab" class="tab-btn active py-3 text-sm font-bold flex items-center gap-1.5 whitespace-nowrap cursor-pointer">
+            <button type="button" onclick="window.switchTab('labTab')" id="tabBtn-lab" class="tab-btn active py-3 text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
                 <span>🧪 מעבדת ניסוי ופרדיקציה</span>
             </button>
-            <button type="button" onclick="switchTab('sampleTab')" id="tabBtn-sample" class="tab-btn py-3 text-sm font-bold flex items-center gap-1.5 whitespace-nowrap cursor-pointer">
+            <button type="button" onclick="window.switchTab('sampleTab')" id="tabBtn-sample" class="tab-btn py-3 text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
                 <span>📐 מחשבון גודל מדגם (Sample Size)</span>
             </button>
-            <button type="button" onclick="switchTab('pitfallsTab')" id="tabBtn-pitfalls" class="tab-btn py-3 text-sm font-bold flex items-center gap-1.5 whitespace-nowrap cursor-pointer">
+            <button type="button" onclick="window.switchTab('pitfallsTab')" id="tabBtn-pitfalls" class="tab-btn py-3 text-sm font-bold flex items-center gap-1.5 whitespace-nowrap">
                 <span>⚠️ מלכודות שיווקיות וטעויות</span>
             </button>
-            <button type="button" onclick="switchTab('glossaryTab')" id="tabBtn-glossary" class="tab-btn py-3 text-sm font-bold flex items-center gap-1.5 whitespace-nowrap text-indigo-600 cursor-pointer">
+            <button type="button" onclick="window.switchTab('glossaryTab')" id="tabBtn-glossary" class="tab-btn py-3 text-sm font-bold flex items-center gap-1.5 whitespace-nowrap text-indigo-600">
                 <span>📖 מילון מונחים</span>
             </button>
-            <button type="button" onclick="switchTab('lecturerTab')" id="tabBtn-lecturer" class="tab-btn py-3 text-sm font-bold flex items-center gap-1.5 hidden text-amber-600 whitespace-nowrap cursor-pointer">
+            <button type="button" onclick="window.switchTab('lecturerTab')" id="tabBtn-lecturer" class="tab-btn py-3 text-sm font-bold flex items-center gap-1.5 hidden text-amber-600 whitespace-nowrap">
                 <span>👨‍🏫 לוח בקרת מרצה (דאטה כיתתי)</span>
+            </button>
+        </nav>
+    </header>
+
+    <!-- תוכן מרכזי -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-1 w-full">
+
+        <!-- ==================== לשונית 1: מעבדת ניסוי ==================== -->
+        <section id="labTab" class="space-y-6">
+            
+            <!-- בחירת תרחיש ויצירת תרחיש אישי -->
+            <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <div class="flex-1">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-2">בחר תרחיש שיווקי מובנה מהסילבוס:</label>
+                    <select id="scenarioSelector" onchange="window.loadScenario(this.value)" class="w-full md:w-96 p-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold text-slate-800 focus:ring-2 focus:ring-blue-500 outline-none">
+                        <option value="ecommerce">1. איקומרס: צבע כפתור ותג אבטחה ב-Checkout</option>
+                        <option value="saas">2. B2B SaaS: כפתור הדגמה מול תקופת ניסיון חינמית</option>
+                        <option value="newsletter">3. אימייל מרקטינג: הנחה ישירה מול קופסת הפתעות</option>
+                        <option value="pricing">4. כלכלה התנהגותית: 20% הנחה מול שובר 50 ₪</option>
+                        <option value="mobile">5. אפליקציה: הרשמה חברתית בלחיצה מול טופס מלא</option>
+                    </select>
+                </div>
+                <div>
+                    <button type="button" onclick="window.openCustomModal()" class="w-full md:w-auto px-5 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-xl shadow-md text-sm flex items-center justify-center gap-2 transition cursor-pointer">
+                        <span>➕ יצירת תרחיש אישי משלך</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- כרטיס תצוגת התרחיש והכפתורים הוויזואליים -->
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="p-6 border-b border-slate-100 bg-gradient-to-l from-slate-50 to-white">
+                    <span id="scenarioTag" class="px-2.5 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-extrabold mb-2 inline-block">איקומרס</span>
+                    <h2 id="scenarioTitle" class="text-xl font-black text-slate-900 mb-2">טוען תרחיש...</h2>
+                    <p id="scenarioDesc" class="text-sm text-slate-600 leading-relaxed mb-4">...</p>
+                    
+                    <div class="bg-amber-50 border-r-4 border-amber-400 p-3 rounded-lg text-xs text-amber-900 font-medium">
+                        <strong>שאלת מחקר:</strong> <span id="scenarioQuestion">...</span>
+                    </div>
+                </div>
+
+                <!-- תצוגת הכפתורים הגרפיים (A מול B) -->
+                <div class="p-6 bg-slate-50/70">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 text-center">תצוגה מקדימה: כך רואה הגולש את שתי הגרסאות באתר (ניתן להקליק לבדיקה)</p>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- תצוגת כפתור A -->
+                        <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm text-center flex flex-col items-center justify-center">
+                            <span class="text-xs font-black px-3 py-1 bg-slate-200 text-slate-700 rounded-full mb-4">גרסה A (בקרת הבסיס)</span>
+                            <div class="py-6 flex items-center justify-center w-full">
+                                <div id="previewContainerA"></div>
+                            </div>
+                            <p id="labelDescA" class="text-xs text-slate-500 font-medium mt-2">כפתור בקרתי נוכחי</p>
+                        </div>
+
+                        <!-- תצוגת כפתור B -->
+                        <div class="bg-white p-6 rounded-2xl border-2 border-blue-400 shadow-sm text-center flex flex-col items-center justify-center">
+                            <span class="text-xs font-black px-3 py-1 bg-blue-100 text-blue-700 rounded-full mb-4">גרסה B (הווריאציה הנבדקת)</span>
+                            <div class="py-6 flex items-center justify-center w-full">
+                                <div id="previewContainerB"></div>
+                            </div>
+                            <p id="labelDescB" class="text-xs text-slate-500 font-medium mt-2">שינוי עיצובי/פסיכולוגי</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- אזור שלבי התרגיל: פרדיקציה ⟵ סימולציה ⟵ תוצאות -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                
+                <!-- שלב 1: הזנת השערה ופרדיקציה אישית -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex items-center gap-2 mb-4">
+                        <span class="w-7 h-7 rounded-full bg-blue-600 text-white flex items-center justify-center font-bold text-xs">1</span>
+                        <h3 class="font-black text-slate-900 text-base">הפרדיקציה השיווקית שלך</h3>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">מי תנצח לדעתך?</label>
+                            <select id="predWinner" class="w-full p-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm font-bold">
+                                <option value="B">גרסה B תנצח (הווריאציה)</option>
+                                <option value="A">גרסה A תנצח (הבקרה תישאר עדיפה)</option>
+                                <option value="None">אין הבדל מובהק ביניהן</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-bold text-slate-600 mb-1">שיעור שיפור צפוי (Lift משוער באחוזים):</label>
+                            <input type="number" id="predLift" value="15" min="-50
